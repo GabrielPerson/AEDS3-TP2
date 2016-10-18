@@ -8,8 +8,8 @@
 
 typedef struct celula{
 
-    char key;
-    char whole[2];
+    char key[2];
+    //char whole[2];
     int cor; //0 -> branco 1-> cinza 2-> preto
 
 }Celula_t;
@@ -25,7 +25,7 @@ typedef struct grafo{
 
 Grafo_t* Cria_grafo(int linha, int coluna);
 
-
+void Apaga_grafo(Grafo_t* grafo);
 
 
 #endif //TP2_GRAFO_H

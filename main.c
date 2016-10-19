@@ -38,8 +38,7 @@
 int main(){
 
     int lin_matriz = 0, col_matriz = 0, max_chave = 0;
-    int i = 0, j = 0, vini_x = 0, vini_y = 0;
-    char aux[2], lixo;
+    char lixo;
 
     Grafo_t* grafo;
 
@@ -47,27 +46,13 @@ int main(){
 
     grafo = Cria_grafo(lin_matriz, col_matriz);
 
+    Vini_t* vini;
+
     scanf("%c", &lixo);
 
-    for(i = grafo->linha-1; i >= 0; i--) {
-        for(j = 0; j < grafo->coluna; j++){
-           scanf("%c ", &aux[0]);
-            if(aux[0] == 'V'){
-                vini_x = j;
-                vini_y = i;
-            }
-            if(aux[0] > 47 && aux[0] < 56) {
-                scanf("%c ", &aux[1]);
-                grafo->mapa[i][j].key[0] = aux[0];
-                grafo->mapa[i][j].key[1] = aux[1];
-            }
-            else
-                grafo->mapa[i][j].key[0] = aux[0];
+    vini = Preenche_grafo(grafo);
 
-            grafo->mapa[i][j].cor = 0;
-        }
-    }
-
+    /*
     for(i = 0; i < grafo->linha;i++){
         for(j = 0; j < grafo->coluna;j++){
             if(grafo->mapa[i][j].key[0] > 47 && grafo->mapa[i][j].key[0] < 56)
@@ -76,7 +61,9 @@ int main(){
                 printf("%c ", grafo->mapa[i][j].key[0]);
         }
         printf("\n");
-    }
+    }*/
+
+    Apaga_vini(vini);
 
     Apaga_grafo(grafo);
 

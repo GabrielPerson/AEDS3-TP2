@@ -3,6 +3,7 @@
 //
 
 #include "vini.h"
+#include <stdlib.h>
 
 Vini_t* Cria_vini(int inicio_x, int inicio_y){
 

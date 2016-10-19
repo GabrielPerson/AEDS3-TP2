@@ -9,9 +9,9 @@ CC = gcc
 
 CFLAGS = -O0 -Wall -Wextra -Werror -std=c99 -pedantic
 
-OBJ = main.o grafo.o
+OBJ = main.o grafo.o vini.o
 
-DEPS = grafo.h
+DEPS = grafo.h vini.h
 
 VFLAGS = --leak-check=full --leak-resolution=high --show-reachable=yes --track-origins=yes
 

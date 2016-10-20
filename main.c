@@ -32,13 +32,14 @@
 
 #include <stdio.h>
 #include "grafo.h"
-
+#include <stdlib.h>
 
 
 int main(){
 
     int lin_matriz = 0, col_matriz = 0, max_chave = 0;
     char lixo;
+    int* ant, *dist;
 
     Grafo_t* grafo;
 
@@ -46,22 +47,15 @@ int main(){
 
     grafo = Cria_grafo(lin_matriz, col_matriz);
 
+    ant = Cria_vetor(lin_matriz*col_matriz);
+
+    dist = Cria_vetor(lin_matriz*col_matriz);
+
     Vini_t* vini;
 
     scanf("%c", &lixo);
 
     vini = Preenche_grafo(grafo);
-
-    /*
-    for(i = 0; i < grafo->linha;i++){
-        for(j = 0; j < grafo->coluna;j++){
-            if(grafo->mapa[i][j].key[0] > 47 && grafo->mapa[i][j].key[0] < 56)
-                printf("%c%c ", grafo->mapa[i][j].key[0], grafo->mapa[i][j].key[1]);
-            else
-                printf("%c ", grafo->mapa[i][j].key[0]);
-        }
-        printf("\n");
-    }*/
 
     Apaga_vini(vini);
 

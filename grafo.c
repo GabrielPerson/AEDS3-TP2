@@ -16,6 +16,7 @@ Grafo_t* Cria_grafo(int linha, int coluna){
 
     grafo->coluna = coluna;
     grafo->linha = linha;
+    grafo->num_vertex = linha*coluna;
 
     grafo->mapa = (Celula_t**)calloc(grafo->linha, sizeof(Celula_t*));
     for(i = 0; i < linha; i++)
@@ -25,9 +26,21 @@ Grafo_t* Cria_grafo(int linha, int coluna){
 
 }
 
+int* Cria_vetor(int num_vertex){
+
+    int i = 0;
+    int* vetor;
+
+    vetor = (int*)calloc(num_vertex, sizeof(int));
+    for(i = 0; i < num_vertex;i++)
+        vetor[i] = -1;
+
+    return vetor;
+}
+
 Vini_t* Preenche_grafo(Grafo_t* grafo){
 
-    int i = 0, j = 0;
+    int i = 0, j = 0, k = 0;
     char aux[2];
     Vini_t* vini;
 
@@ -46,7 +59,8 @@ Vini_t* Preenche_grafo(Grafo_t* grafo){
                 grafo->mapa[i][j].key[0] = aux[0];
 
             grafo->mapa[i][j].cor = 0;
-            grafo->mapa[i][j].dist = -1;
+            grafo->mapa[i][j].number = k;
+            k++;
         }
     }
     return vini;
@@ -64,3 +78,5 @@ void Apaga_grafo(Grafo_t* grafo){
     free(grafo);
 
 }
+
+

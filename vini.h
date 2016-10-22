@@ -7,18 +7,17 @@
 
 typedef struct vini{
 
-    int cord_x;
-    int cord_y;
     int chave_c;
     int chave_d;
     int chave_h;
     int chave_s;
     int cont_chave;
-    int tempo;
+    int max_chave;
+    int pos;
 
 }Vini_t;
 
-Vini_t* Cria_vini(int inicio_x, int inicio_y);
+Vini_t* Cria_vini();
 
 void Apaga_vini(Vini_t* vini);
 

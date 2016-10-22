@@ -2,10 +2,12 @@
 // Created by person on 20/10/16.
 //
 
-#include "grafo.h"
 
 #ifndef TP2_BUSCA_H
 #define TP2_BUSCA_H
+
+#include "grafo.h"
+
 
 int Menor_caminho_saida(Grafo_t* grafo, int coord_i, int coord_j, int* dist, int* ant);
 

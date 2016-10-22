@@ -26,11 +26,19 @@ typedef struct grafo{
 }Grafo_t;
 
 
-Grafo_t* Cria_grafo(int linha, int coluna);
+Grafo_t* Cria_matriz_aux(int linha, int coluna);
+
+Grafo_t* Cria_grafo(int num_vertices);
 
 int* Cria_vetor(int num_vertex);
 
-Vini_t* Preenche_grafo(Grafo_t* grafo);
+void Le_entrada(Grafo_t* matriz_aux);
+
+void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini);
+
+void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k);
+
+void Apaga_matriz(Grafo_t* matriz);
 
 void Apaga_grafo(Grafo_t* grafo);
 

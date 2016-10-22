@@ -4,7 +4,7 @@
 
 #include "busca.h"
 #include <stdlib.h>
-#include "fila.h"
+//#include "fila.h"
 
 /* IMPLEENTACAO DE BUSCA DO MENOR CAMINHO DA SAIDA
  *  1 - USA-SE UMA FILA PARA BUSCA EM LARGURA - VERIFICA-SE TODOS OS VIZINHOS DE D = 1 DO VERTICE E ADICIONA-OS NA FILA E ASSIM VAI.
@@ -25,7 +25,7 @@
 
 
 
-
+/*
 int Menor_caminho(Grafo_t* grafo, int coord_i, int coord_j, int* dist, int* ant){
 
     int i = 0, cont = grafo->num_vertex, *visita, v, find_exit = 0;
@@ -46,7 +46,7 @@ int Menor_caminho(Grafo_t* grafo, int coord_i, int coord_j, int* dist, int* ant)
     }
 
 }
-
+*/
 /*
 int Menor_distancia(int* dist, int* visita, int num_vertex){
 

@@ -5,7 +5,7 @@
 #include "vini.h"
 #include <stdlib.h>
 
-Vini_t* Cria_vini(int inicio_x, int inicio_y){
+Vini_t* Cria_vini(){
 
     Vini_t* vini;
 
@@ -16,8 +16,8 @@ Vini_t* Cria_vini(int inicio_x, int inicio_y){
     vini->chave_h = 0;
     vini->chave_s = 0;
     vini->cont_chave = 0;
-    vini->cord_x = inicio_x;
-    vini->cord_y = inicio_y;
+    vini->max_chave = 0;
+    vini->pos = 0;
 
     return vini;
 }

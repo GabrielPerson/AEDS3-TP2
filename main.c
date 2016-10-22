@@ -39,27 +39,32 @@ int main(){
 
     int lin_matriz = 0, col_matriz = 0, max_chave = 0;
     char lixo;
-    int* ant, *dist;
+    //int* ant, *dist;
 
+    Grafo_t* matriz_aux;
     Grafo_t* grafo;
+    Vini_t* vini;
 
     scanf("%d %d %d", &lin_matriz, &col_matriz, &max_chave);
 
-    grafo = Cria_grafo(lin_matriz, col_matriz);
-
-    ant = Cria_vetor(lin_matriz*col_matriz);
-
-    dist = Cria_vetor(lin_matriz*col_matriz);
-
-    Vini_t* vini;
+    matriz_aux = Cria_matriz_aux(lin_matriz, col_matriz);
+    grafo = Cria_grafo(matriz_aux->num_vertex);
+    vini = Cria_vini();
 
     scanf("%c", &lixo);
 
-    vini = Preenche_grafo(grafo);
+    Le_entrada(matriz_aux);
+    Preenche_grafo(matriz_aux, grafo, vini);
+    //ant = Cria_vetor(lin_matriz*col_matriz);
+    //dist = Cria_vetor(lin_matriz*col_matriz);
+
+    printf("%d\n", vini->pos);
+
 
     Apaga_vini(vini);
 
     Apaga_grafo(grafo);
+    Apaga_matriz(matriz_aux);
 
     return 0;
 }

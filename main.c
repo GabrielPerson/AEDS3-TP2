@@ -33,13 +33,15 @@
 #include <stdio.h>
 #include "grafo.h"
 #include <stdlib.h>
+#include "busca.h"
 
 
 int main(){
 
     int lin_matriz = 0, col_matriz = 0, max_chave = 0;
     char lixo;
-    //int* ant, *dist;
+    int* ant, *dist;
+    int i = 0, j = 0;
 
     Grafo_t* matriz_aux;
     Grafo_t* grafo;
@@ -49,16 +51,26 @@ int main(){
 
     matriz_aux = Cria_matriz_aux(lin_matriz, col_matriz);
     grafo = Cria_grafo(matriz_aux->num_vertex);
+    ant = Cria_vetor(lin_matriz*col_matriz);
+    dist = Cria_vetor(lin_matriz*col_matriz);
     vini = Cria_vini();
+
 
     scanf("%c", &lixo);
 
     Le_entrada(matriz_aux);
     Preenche_grafo(matriz_aux, grafo, vini);
-    //ant = Cria_vetor(lin_matriz*col_matriz);
-    //dist = Cria_vetor(lin_matriz*col_matriz);
+
 
     printf("%d\n", vini->pos);
+
+    /*for(i = 0; i < grafo->num_vertex;i++){
+        for(j = 0; j < grafo->num_vertex; j++)
+            printf("%d ", grafo->mapa[i][j].number);
+        printf("\n");
+    }*/
+
+    Busca_saida(grafo, vini, dist, ant);
 
 
     Apaga_vini(vini);

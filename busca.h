@@ -9,8 +9,14 @@
 #include "grafo.h"
 
 
-int Menor_caminho_saida(Grafo_t* grafo, int coord_i, int coord_j, int* dist, int* ant);
+int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant);
 
 int Menor_distancia(int* dist, int* visita, int num_vertex);
+
+int Abre_porta(Grafo_t* grafo, Vini_t* vini, int vertex, int vizinho);
+
+int Eh_porta(Grafo_t* grafo, int vertex, int vizinho);
+
+void Check_chave(Grafo_t* grafo, Vini_t* vini, int v);
 
 #endif //TP2_BUSCA_H

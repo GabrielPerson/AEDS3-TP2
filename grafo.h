@@ -36,11 +36,12 @@ void Le_entrada(Grafo_t* matriz_aux);
 
 void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini);
 
-void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k);
+void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k, int k1);
 
 void Apaga_matriz(Grafo_t* matriz);
 
 void Apaga_grafo(Grafo_t* grafo);
 
+void Apaga_vetor(int* vetor);
 
 #endif //TP2_GRAFO_H

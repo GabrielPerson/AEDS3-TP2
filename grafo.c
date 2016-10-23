@@ -87,27 +87,29 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini){
         lim_dir = (i + 1) * matriz_aux->coluna;
         lim_esq = (i * matriz_aux->coluna);
         for(j = 0; j < matriz_aux->coluna;j++){
+            grafo->mapa[k][k].key[0] = matriz_aux->mapa[i][j].key[0];
+            grafo->mapa[k][k].key[1] = matriz_aux->mapa[i][j].key[1];
             if(matriz_aux->mapa[i][j].key[0] != '#') {
+                if(matriz_aux->mapa[i][j].key[0] == 'V')
+                    vini->pos = k;
                 if(matriz_aux->mapa[i][j].key[0] > 47 && matriz_aux->mapa[i][j].key[0] < 58){
                     whole_i = (int) matriz_aux->mapa[i][j].key[0] - 48;
                     whole_j = (int) matriz_aux->mapa[i][j].key[0] - 48;
                     vertex_whole = matriz_aux->coluna * whole_i  + whole_j;
                     grafo->mapa[k][vertex_whole].number = 1;
                 }
-                if(matriz_aux->mapa[i][j].key[0] == 'V')
-                    vini->pos = k;
                 else {
                     if (k + 1 < lim_dir)
-                        Insere_vertice_grafo(matriz_aux, grafo, i, j + 1, k + 1);
+                        Insere_vertice_grafo(matriz_aux, grafo, i, j + 1, k, k + 1);
 
                     if (k - 1 >= lim_esq)
-                        Insere_vertice_grafo(matriz_aux, grafo, i, j - 1, k - 1);
+                        Insere_vertice_grafo(matriz_aux, grafo, i, j - 1, k, k - 1);
 
                     if (k + matriz_aux->coluna < grafo->num_vertex)
-                        Insere_vertice_grafo(matriz_aux, grafo, i + 1, j, k + matriz_aux->coluna);
+                        Insere_vertice_grafo(matriz_aux, grafo, i + 1, j, k, k + matriz_aux->coluna);
 
                     if (k - matriz_aux->coluna >= 0)
-                        Insere_vertice_grafo(matriz_aux, grafo, i - 1, j, k - matriz_aux->coluna);
+                        Insere_vertice_grafo(matriz_aux, grafo, i - 1, j, k, k - matriz_aux->coluna);
                 }
             }
             k++;
@@ -115,17 +117,18 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini){
     }
 }
 
-void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k){
+void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k, int k1){
 
     if(matriz_aux->mapa[i][j].key[0] != '#'){
-        grafo->mapa[k][k].number = 1;
+        grafo->mapa[k][k1].number = 1;
         if(matriz_aux->mapa[i][j].key[0] > 47 && matriz_aux->mapa[i][j].key[0] < 58){
-            grafo->mapa[k][k].key[0] = matriz_aux->mapa[i][j].key[0];
-            grafo->mapa[k][k].key[1] = matriz_aux->mapa[i][j].key[1];
+            grafo->mapa[k][k1].key[0] = matriz_aux->mapa[i][j].key[0];
+            grafo->mapa[k][k1].key[1] = matriz_aux->mapa[i][j].key[1];
         } else
-            grafo->mapa[k][k].number = 1;
+            grafo->mapa[k][k1].number = 1;
     } else
-        grafo->mapa[k][k].number = 0;
+        grafo->mapa[k][k1].number = 0;
+    grafo->mapa[k][k1].cor = 0;
 }
 
 void Apaga_matriz(Grafo_t* matriz){
@@ -152,4 +155,9 @@ void Apaga_grafo(Grafo_t* grafo){
 
 }
 
+void Apaga_vetor(int* vetor){
 
+    free(vetor);
+    vetor = NULL;
+
+}

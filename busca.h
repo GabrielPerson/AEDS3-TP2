@@ -19,4 +19,6 @@ int Eh_porta(Grafo_t* grafo, int vertex, int vizinho);
 
 void Check_chave(Grafo_t* grafo, Vini_t* vini, int v);
 
+int Check_saida(Grafo_t* grafo, int* dist, int vertice, int vizinho);
+
 #endif //TP2_BUSCA_H

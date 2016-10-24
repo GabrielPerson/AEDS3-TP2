@@ -17,7 +17,7 @@ typedef struct vini{
 
 }Vini_t;
 
-Vini_t* Cria_vini();
+Vini_t* Cria_vini(int max_chave);
 
 void Apaga_vini(Vini_t* vini);
 

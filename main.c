@@ -41,7 +41,7 @@ int main(){
     int lin_matriz = 0, col_matriz = 0, max_chave = 0;
     char lixo;
     int* ant, *dist;
-    int i = 0, j = 0;
+    int saida = -1;
 
     Grafo_t* matriz_aux;
     Grafo_t* grafo;
@@ -53,7 +53,7 @@ int main(){
     grafo = Cria_grafo(matriz_aux->num_vertex);
     ant = Cria_vetor(lin_matriz*col_matriz);
     dist = Cria_vetor(lin_matriz*col_matriz);
-    vini = Cria_vini();
+    vini = Cria_vini(max_chave);
 
 
     scanf("%c", &lixo);
@@ -62,19 +62,31 @@ int main(){
     Preenche_grafo(matriz_aux, grafo, vini);
 
 
-    printf("%d\n", vini->pos);
+    //printf("%d\n", vini->pos);
 
-    /*for(i = 0; i < grafo->num_vertex;i++){
+    /*int i = 0, j = 0;
+
+    for(i = 0; i < grafo->num_vertex;i++){
+        for(j = 0; j < grafo->num_vertex; j++)
+            printf("%c ", grafo->mapa[i][j].key[0]);
+        printf("\n");
+    }
+    for(i = 0; i < grafo->num_vertex;i++){
         for(j = 0; j < grafo->num_vertex; j++)
             printf("%d ", grafo->mapa[i][j].number);
         printf("\n");
     }*/
 
-    Busca_saida(grafo, vini, dist, ant);
+    saida = Busca_saida(grafo, vini, dist, ant);
 
+    if(saida == -1)
+        printf("-1\n");
+    else
+        printf("%d\n", dist[saida]);
 
     Apaga_vini(vini);
-
+    Apaga_vetor(dist);
+    Apaga_vetor(ant);
     Apaga_grafo(grafo);
     Apaga_matriz(matriz_aux);
 

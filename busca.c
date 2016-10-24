@@ -6,31 +6,11 @@
 #include <stdlib.h>
 //#include "fila.h"
 
-/* IMPLEENTACAO DE BUSCA DO MENOR CAMINHO DA SAIDA
- *  1 - USA-SE UMA FILA PARA BUSCA EM LARGURA - ENFILERA-SE O VERTICE DE VINI E VERIFICA-SE OS VERTICES ADJS. INSERE NA FILA
- *      E DPS DESENFILERA E CHECA SEUS VIZINHOS TBM
- *  2 - ESTANDO NO VERTICE -> DEFINE SUA DISTANCIA
- *  3 - VERIFICA SE EH UMA CHAVE OU UM BURACO
- *      -> CHAVE - VERIFICA SE JA SE ATINGIU O MAXIMO DE CHAVES
- *               - VERIFICA SE JA POSSUI CHAVE (PODE PEGAR OU NAO)
- *      -> BURACO - POSICAO VIRA `.`
- *                - ADICIONA POSICAO NA FILA
- *  4 - VERIFICA-SE O PROXIMO VERTICE
- *      - SE '#' NAO AVANCA (VERIFICA OUTROS VIZINHOS)
- *      - SE PORTA VERIFICA-SE SE TEM CHAVE(SE TIVER, ADD NA FILA)
- *  5 - USA-SE UMA VARIAVEL PARA VERIFICA SE JA CHEGOU-SE ALGUMA VEZ NA SAIDA
- *      - SE SIM, E DISTANCIA DO VERTICE ATUAL FOR MAIOR, PARA.
- *
- */
-
-
-
 
 int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
 
-    int i = 0, cont = grafo->num_vertex, *visita, v, find_exit = 0;
-    int vizinho, whole = 0, abre_porta = 0, eh_porta = 0;
-    int *pos_vertex;
+    int i = 0, cont = grafo->num_vertex, *visita, v;
+    int vizinho, whole = 0, abre_porta = 0, eh_porta = 0, chegou_saida = 0, saida = -1;
 
     visita = (int*)calloc(grafo->num_vertex, sizeof(int));
     dist[vini->pos] = 0;
@@ -43,21 +23,29 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
 
         visita[v] = 1;
         cont--;
+
         whole = 0;
         if(grafo->mapa[v][v].key[0] > 47 && grafo->mapa[v][v].key[0] < 59){
             whole = 1;
             grafo->mapa[v][v].key[0] = '.';
         }
 
+        if(chegou_saida && dist[v] > dist[saida])
+            break;
 
-        Check_chave(grafo, vini, v);
+        if(vini->cont_chave < vini->max_chave) {
+            Check_chave(grafo, vini, v);
+        }
 
         for(i = 0; i < grafo->num_vertex;i++){
             if(grafo->mapa[v][i].number == 1){
+                eh_porta = abre_porta = 0;
                 vizinho = i;
 
                 eh_porta = Eh_porta(grafo, v, vizinho);
                 abre_porta = Abre_porta(grafo, vini, v, vizinho);
+
+                //buraco -> so chega uma vez -> com dist = -1
 
                 if(dist[vizinho] < 0){
                     if(whole)
@@ -68,7 +56,8 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
                             ant[vizinho] = v;
                         }
                     }
-                    else{dist[vizinho] = dist[v] + 1;
+                    else{
+                        dist[vizinho] = dist[v] + 1;
                         ant[vizinho] = v;
                     }
                 }
@@ -78,13 +67,17 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
                         ant[vizinho] = v;
                     }
                 }
+                if(!chegou_saida) {
+                    chegou_saida = Check_saida(grafo, dist, v, vizinho);
+                    if(chegou_saida == 1) saida = vizinho;
+                }
             }
         }
 
     }
     Apaga_vetor(visita);
 
-    return dist[vini->pos];
+    return saida;
 }
 
 
@@ -109,24 +102,26 @@ int Menor_distancia(int* dist, int* visita, int num_vertex){
 
 void Check_chave(Grafo_t* grafo, Vini_t* vini, int v){
 
-    if(vini->cont_chave < vini->max_chave) {
         switch (grafo->mapa[v][v].key[0]){
             case 'c':
                 vini->chave_c = 1;
+                vini->cont_chave ++;
                 break;
             case 'd':
                 vini->chave_d = 1;
+                vini->cont_chave ++;
                 break;
             case 'h':
                 vini->chave_h = 1;
+                vini->cont_chave ++;
                 break;
             case 's':
                 vini->chave_s = 1;
+                vini->cont_chave ++;
                 break;
             default:;
         }
-        vini->cont_chave ++;
-    }
+
 }
 
 int Abre_porta(Grafo_t* grafo, Vini_t* vini, int vertex, int vizinho){
@@ -172,4 +167,15 @@ int Eh_porta(Grafo_t* grafo, int vertex, int vizinho){
         default:
             return 0;
     }
+}
+
+int Check_saida(Grafo_t* grafo, int* dist, int vertex,int vizinho){
+
+    if(grafo->mapa[vertex][vizinho].key[0] == 'E'){
+        if(dist[vizinho] != -1)
+            return 1;
+        else return 0;
+    }
+
+    return 0;
 }

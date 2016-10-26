@@ -13,7 +13,7 @@
  *                                  'E' - SAIDA DA FISICA
  *                                  'X,Y' - 0<X,Y<9 (POSICAO FINAL DO BURADO DE MINHOCA)
  *
- *  SAIDA - TEMPO MINIMO PARA SAIR DA FISICA (SE IMPOSSIVEL - IMPRIMIR -1)
+ *  SAIDA - TEMPO MINIMO PARA SAIR DA FISICA (SE IMPOSSIVEL -> IMPRIMIR -1)
  *
  */
 
@@ -32,7 +32,6 @@
 
 #include <stdio.h>
 #include "grafo.h"
-#include <stdlib.h>
 #include "busca.h"
 
 
@@ -61,8 +60,7 @@ int main(){
     Le_entrada(matriz_aux);
     Preenche_grafo(matriz_aux, grafo, vini);
 
-
-    //printf("%d\n", vini->pos);
+    Apaga_matriz(matriz_aux);
 
     /*int i = 0, j = 0;
 
@@ -83,12 +81,16 @@ int main(){
         printf("-1\n");
     else
         printf("%d\n", dist[saida]);
+/*
+    int i = 0;
+    for(i = 0; i < grafo->num_vertex;i++)
+        printf("%d ", ant[i]);*/
 
     Apaga_vini(vini);
     Apaga_vetor(dist);
     Apaga_vetor(ant);
     Apaga_grafo(grafo);
-    Apaga_matriz(matriz_aux);
+
 
     return 0;
 }

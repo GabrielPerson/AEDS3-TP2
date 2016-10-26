@@ -32,7 +32,7 @@ valgrind:
 	valgrind $(VFLAGS) $(EXEC) < input
 
 test:
-	$(EXEC) < input
+	$(EXEC) < toys/in1 && cat toys/out1 && $(EXEC) < toys/in2 && cat toys/out2 && $(EXEC) < toys/in3 && cat toys/out3 && $(EXEC) < toys/in4 && cat toys/out4 && $(EXEC) < toys/in5 && cat toys/out5 && $(EXEC) < toys/in6 && cat toys/out6 && $(EXEC) < toys/in7 && cat toys/out7 && $(EXEC) < toys/in8 && cat toys/out8 && $(EXEC) < toys/in9 && cat toys/out9 && $(EXEC) < toys/in10 && cat toys/out10 
 
 time:
 	time $(EXEC) < input

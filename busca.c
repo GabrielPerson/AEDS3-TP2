@@ -9,8 +9,8 @@
 
 int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
 
-    int i = 0, cont = grafo->num_vertex, *visita, v, k = 0;
-    int  whole = 0, chegou_saida = 0, saida = -1, whole_pos = 0;
+    int i = 0, k = 0, cont = grafo->num_vertex, *visita, v;
+    int  whole = 0, chegou_saida = 0, saida = -1;
     int passou_chave = 0;
 
     visita = (int*)calloc(grafo->num_vertex, sizeof(int));
@@ -27,16 +27,13 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
 
         whole = 0;
         if(grafo->mapa[v][v].key[0] > 47 && grafo->mapa[v][v].key[0] < 59){
-            whole_pos = v;
+            //whole_pos = v;
             whole = 1;
             grafo->mapa[v][v].key[0] = '.';
         }
 
         if(chegou_saida && dist[v] > dist[saida])
             break;
-
-        if(vini->cont_chave < vini->max_chave && Eh_chave(grafo,v))
-            Pega_chave(grafo, vini, v);
 
         if(Eh_chave(grafo,v) && vini->cont_chave == vini->max_chave){
             k = ant[v];
@@ -50,11 +47,13 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
                     k = ant[k];
             }
             if(!passou_chave){
-                vini->max_chave--;
-                Pega_chave(grafo,vini,k);
+                vini->cont_chave--;
+                Pega_chave(grafo,vini,v);
             }
-
         }
+
+        if(vini->cont_chave < vini->max_chave && Eh_chave(grafo,v))
+            Pega_chave(grafo, vini, v);
 
         for(i = 0; i < grafo->num_vertex;i++){
             if(grafo->mapa[v][i].number == 1)

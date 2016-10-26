@@ -5,7 +5,6 @@
 #include "grafo.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "vini.h"
 
 Grafo_t* Cria_matriz_aux(int linha, int coluna){
 
@@ -94,7 +93,7 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini){
                     vini->pos = k;
                 if(matriz_aux->mapa[i][j].key[0] > 47 && matriz_aux->mapa[i][j].key[0] < 58){
                     whole_i = (int) matriz_aux->mapa[i][j].key[0] - 48;
-                    whole_j = (int) matriz_aux->mapa[i][j].key[0] - 48;
+                    whole_j = (int) matriz_aux->mapa[i][j].key[1] - 48;
                     vertex_whole = matriz_aux->coluna * whole_i  + whole_j;
                     grafo->mapa[k][vertex_whole].number = 1;
                     grafo->mapa[k][vertex_whole].key[0] = matriz_aux->mapa[whole_i][whole_j].key[0];
@@ -130,7 +129,6 @@ void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int
             grafo->mapa[k][k1].key[0] = matriz_aux->mapa[i][j].key[0];
     } else
         grafo->mapa[k][k1].number = 0;
-    //grafo->mapa[k][k1].cor = 0;
 }
 
 void Apaga_matriz(Grafo_t* matriz){

@@ -12,7 +12,6 @@ typedef struct celula{
 
     char key[2];
     int number;
-    int cor; //0 -> branco 1-> cinza 2-> preto
 
 }Celula_t;
 

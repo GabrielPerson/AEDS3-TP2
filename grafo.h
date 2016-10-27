@@ -36,7 +36,7 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini);
 
 void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k, int k1);
 
-void Novos_vizinhos(Grafo_t* grafo,Grafo_t* matriz_aux, int vertex);
+void Novos_vizinhos(Grafo_t* grafo,Grafo_t* matriz_aux, int vertex, int vizinho);
 
 void Apaga_matriz(Grafo_t* matriz);
 

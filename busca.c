@@ -3,15 +3,13 @@
 //
 
 #include "busca.h"
-#include "grafo.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, int* ant){
 
     int i = 0, k = 0, cont = grafo->num_vertex, *visita, v;
-    int  whole = 0, chegou_saida = 0, saida = -1;
-    int passou_chave = 0;
+    int  whole = 0, chegou_saida = 0, saida = -1, vizinho = -1;
+    int passou_chave = 0, whole_fechado = -1;
 
     visita = (int*)calloc(grafo->num_vertex, sizeof(int));
     dist[vini->pos] = 0;
@@ -28,13 +26,9 @@ int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, in
         whole = 0;
         //TODO o hole qnd fecha, ele pode ser acessado de novo ? e os que vem antes dele? podem ?
         if(grafo->mapa[v][v].key[0] > 47 && grafo->mapa[v][v].key[0] < 59){
-            //whole_pos = v;
+            whole_fechado = v;
             whole = 1;
             grafo->mapa[v][v].key[0] = '.';
-            printf("%c ", grafo->mapa[v-1][v-1].key[0]);
-            //Novos_vizinhos(grafo,matriz_aux,v);
-            //visita[v] = 0;
-            //dist[v] = -1;
         }
 
         if(chegou_saida && dist[v] > dist[saida])
@@ -60,12 +54,14 @@ int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, in
         if(vini->cont_chave < vini->max_chave && Eh_chave(grafo,v))
             Pega_chave(grafo, vini, v);
 
-        for(i = 0; i < grafo->num_vertex;i++){
-            if(grafo->mapa[v][i].number == 1)
-                Check_vizinhos(grafo,vini,dist,ant,v,i,&chegou_saida,&saida, whole);
+        for(i = 0; i < grafo->num_vertex;i++) {
+            if (grafo->mapa[v][i].number == 1){
+                vizinho = i;
+                Check_vizinhos(grafo, vini, dist, ant, visita, v, i, &chegou_saida, &saida, whole, whole_fechado);
+            }
         }
         if(whole)
-            Novos_vizinhos(grafo,matriz_aux,v);
+            Novos_vizinhos(grafo,matriz_aux,v, vizinho);
 
     }
     Apaga_vetor(visita);
@@ -188,40 +184,73 @@ int Check_saida(Grafo_t* grafo, int* dist, int vertex,int vizinho){
     return 0;
 }
 
-void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant, int vertex, int i, int* chegou_saida, int* saida, int whole){
+void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant,int* visita, int vertex, int i, int* chegou_saida, int* saida, int whole, int whole_fechado){
 
     int vizinho = 0, eh_porta = 0, abre_porta = 0;
+    int k = 0;
 
-        eh_porta = abre_porta= 0;
-        vizinho = i;
+    eh_porta = abre_porta= 0;
+    vizinho = i;
 
-        eh_porta = Eh_porta(grafo, vertex, vizinho);
-        abre_porta = Abre_porta(grafo,vini,vertex, vizinho);
+    eh_porta = Eh_porta(grafo, vertex, vizinho);
+    abre_porta = Abre_porta(grafo,vini,vertex, vizinho);
 
-        if(dist[vizinho] < 0){
-            if(whole) {
-                dist[vizinho] = dist[vertex];
-                ant[vizinho] = vertex;
-            }
-            else if(eh_porta) {
-                if(abre_porta) {
-                    dist[vizinho] = dist[vertex] + 1;
-                    ant[vizinho] = vertex;
-                }
-            }
-            else{
+    //situação caso o wormhole leve a um vertice que ja tenha sido visitado no caminho.
+    if(whole && No_caminho(ant,vertex,vizinho,vini->pos)){
+        k = ant[vertex];
+        while(k != vizinho){
+            dist[k] = -1;
+            visita[k] = 0;
+            k = ant[k];
+        }
+        if(k == vizinho){
+            visita[k] = 0;
+            dist[k] = -1;
+        }
+    }
+    if(vizinho == whole_fechado){
+        visita[vizinho] = 0;
+        dist[vizinho] = dist[vertex] + 1;
+    }
+
+
+    if(dist[vizinho] < 0){
+        if(whole) {
+            dist[vizinho] = dist[vertex];
+            ant[vizinho] = vertex;
+        }
+        else if(eh_porta) {
+            if(abre_porta) {
                 dist[vizinho] = dist[vertex] + 1;
                 ant[vizinho] = vertex;
             }
         }
         else{
-            if(dist[vizinho] > dist[vertex] + 1) {
-                dist[vizinho] = dist[vertex] + 1;
-                ant[vizinho] = vertex;
-            }
+            dist[vizinho] = dist[vertex] + 1;
+            ant[vizinho] = vertex;
         }
-        if(!(*chegou_saida)) {
-            *chegou_saida = Check_saida(grafo, dist, vertex, vizinho);
-            if(*chegou_saida == 1) *saida = vizinho;
+    }
+    else{
+        if(dist[vizinho] > dist[vertex] + 1) {
+            dist[vizinho] = dist[vertex] + 1;
+            ant[vizinho] = vertex;
         }
+    }
+    if(!(*chegou_saida)) {
+        *chegou_saida = Check_saida(grafo, dist, vertex, vizinho);
+        if(*chegou_saida == 1) *saida = vizinho;
+    }
+}
+
+int No_caminho(int* ant, int vertex, int vizinho, int inicio){
+
+    int i = 0;
+
+    i = ant[vertex];
+    if(vizinho == inicio) return 1;
+    while(i != inicio){
+        if(i == vizinho) return 1;
+        i = ant[i];
+    }
+    return 0;
 }

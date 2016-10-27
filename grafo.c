@@ -131,7 +131,9 @@ void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int
         grafo->mapa[k][k1].number = 0;
 }
 
-void Novos_vizinhos(Grafo_t* grafo, Grafo_t* matriz_aux, int vertex) {
+void Novos_vizinhos(Grafo_t* grafo, Grafo_t* matriz_aux, int vertex, int vizinho) {
+
+    grafo->mapa[vertex][vizinho].number = 0;
 
     if (vertex - 1 >= 0) {
         if (grafo->mapa[vertex - 1][vertex - 1].key[0] != '#')

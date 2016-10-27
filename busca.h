@@ -23,6 +23,8 @@ void Pega_chave(Grafo_t* grafo, Vini_t* vini, int v);
 
 int Check_saida(Grafo_t* grafo, int* dist, int vertice, int vizinho);
 
-void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int *ant, int vertex, int i, int* chegou_saida, int* saida, int whole);
+void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int *ant, int* visita, int vertex, int i, int* chegou_saida, int* saida, int whole,int whole_fechado);
+
+int No_caminho(int* ant, int vertex, int vizinho, int inicio);
 
 #endif //TP2_BUSCA_H

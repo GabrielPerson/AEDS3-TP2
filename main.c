@@ -17,19 +17,6 @@
  *
  */
 
-/* PROGRESSO DO TP
- *
- * 1 - PASSAR INPUT PARA MATRIZ GRAFO - OK
- * 2 - CRIAR VINICIUS - OK
- * 3 - VER ALGORITMO DE BUSCA EM LARGURA
- * 4 - IMPLEMENTAR ALGORITMO
- * 5 - TENTAR IMPLEMENTAR O DJIKSTRA
- * 6 - TA TUDO OK ??
- * 7 - SERA MSM ???
- * 8 - SE TIVER OK VAI PRA DOC
- *
- */
-
 #include <stdio.h>
 #include "grafo.h"
 #include "busca.h"
@@ -54,13 +41,10 @@ int main(){
     dist = Cria_vetor(lin_matriz*col_matriz);
     vini = Cria_vini(max_chave);
 
-
     scanf("%c", &lixo);
 
     Le_entrada(matriz_aux);
     Preenche_grafo(matriz_aux, grafo, vini);
-
-    Apaga_matriz(matriz_aux);
 
     /*int i = 0, j = 0;
 
@@ -75,13 +59,17 @@ int main(){
         printf("\n");
     }*/
 
-    saida = Busca_saida(grafo, vini, dist, ant);
+    //int i = 0, j = 0;
+
+    saida = Busca_saida(grafo, matriz_aux ,vini, dist, ant);
+
+    Apaga_matriz(matriz_aux);
 
     if(saida == -1)
         printf("-1\n");
     else
         printf("%d\n", dist[saida]);
-/*
+    /*
     int i = 0;
     for(i = 0; i < grafo->num_vertex;i++)
         printf("%d ", ant[i]);*/

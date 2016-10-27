@@ -3,11 +3,11 @@
 //
 
 #include "busca.h"
+#include "grafo.h"
 #include <stdlib.h>
-//#include "fila.h"
+#include <stdio.h>
 
-
-int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
+int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, int* ant){
 
     int i = 0, k = 0, cont = grafo->num_vertex, *visita, v;
     int  whole = 0, chegou_saida = 0, saida = -1;
@@ -26,10 +26,15 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
         cont--;
 
         whole = 0;
+        //TODO o hole qnd fecha, ele pode ser acessado de novo ? e os que vem antes dele? podem ?
         if(grafo->mapa[v][v].key[0] > 47 && grafo->mapa[v][v].key[0] < 59){
             //whole_pos = v;
             whole = 1;
             grafo->mapa[v][v].key[0] = '.';
+            printf("%c ", grafo->mapa[v-1][v-1].key[0]);
+            //Novos_vizinhos(grafo,matriz_aux,v);
+            //visita[v] = 0;
+            //dist[v] = -1;
         }
 
         if(chegou_saida && dist[v] > dist[saida])
@@ -59,6 +64,8 @@ int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant){
             if(grafo->mapa[v][i].number == 1)
                 Check_vizinhos(grafo,vini,dist,ant,v,i,&chegou_saida,&saida, whole);
         }
+        if(whole)
+            Novos_vizinhos(grafo,matriz_aux,v);
 
     }
     Apaga_vetor(visita);
@@ -192,8 +199,10 @@ void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant, int verte
         abre_porta = Abre_porta(grafo,vini,vertex, vizinho);
 
         if(dist[vizinho] < 0){
-            if(whole)
+            if(whole) {
                 dist[vizinho] = dist[vertex];
+                ant[vizinho] = vertex;
+            }
             else if(eh_porta) {
                 if(abre_porta) {
                     dist[vizinho] = dist[vertex] + 1;

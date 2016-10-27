@@ -131,6 +131,27 @@ void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int
         grafo->mapa[k][k1].number = 0;
 }
 
+void Novos_vizinhos(Grafo_t* grafo, Grafo_t* matriz_aux, int vertex) {
+
+    if (vertex - 1 >= 0) {
+        if (grafo->mapa[vertex - 1][vertex - 1].key[0] != '#')
+            grafo->mapa[vertex][vertex - 1].number = 1;
+    }
+    if (vertex + 1 < grafo->num_vertex) {
+        if (grafo->mapa[vertex + 1][vertex + 1].key[0] != '#')
+            grafo->mapa[vertex][vertex + 1].number = 1;
+    }
+    if (vertex - matriz_aux->coluna >= 0){
+        if (grafo->mapa[vertex - matriz_aux->coluna][vertex - matriz_aux->coluna].key[0] != '#')
+            grafo->mapa[vertex][vertex - matriz_aux->coluna].number = 1;
+    }
+    if(vertex+matriz_aux->coluna < grafo->num_vertex) {
+        if (grafo->mapa[vertex + matriz_aux->coluna][vertex + matriz_aux->coluna].key[0] != '#')
+            grafo->mapa[vertex][vertex + matriz_aux->coluna].number = 1;
+    }
+}
+
+
 void Apaga_matriz(Grafo_t* matriz){
 
     int i =0;

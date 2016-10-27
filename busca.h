@@ -9,7 +9,7 @@
 #include "grafo.h"
 
 
-int Busca_saida(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant);
+int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux ,Vini_t* vini, int* dist, int* ant);
 
 int Menor_distancia(int* dist, int* visita, int num_vertex);
 

@@ -5,7 +5,6 @@
 #ifndef TP2_GRAFO_H
 #define TP2_GRAFO_H
 
-
 #include "vini.h"
 
 typedef struct celula{
@@ -36,6 +35,8 @@ void Le_entrada(Grafo_t* matriz_aux);
 void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini);
 
 void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k, int k1);
+
+void Novos_vizinhos(Grafo_t* grafo,Grafo_t* matriz_aux, int vertex);
 
 void Apaga_matriz(Grafo_t* matriz);
 

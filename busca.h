@@ -21,7 +21,7 @@ int Eh_chave(Grafo_t* grafo, int vertex);
 
 void Pega_chave(Grafo_t* grafo, Vini_t* vini, int v);
 
-int Check_saida(Grafo_t* grafo, int* dist, int vertice, int vizinho);
+int Check_saida(Grafo_t* grafo, int* dist, int vizinho);
 
 void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int *ant, int* visita, int vertex, int i, int* chegou_saida, int* saida, int whole,int whole_fechado);
 

@@ -14,7 +14,7 @@ int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, in
     visita = (int*)calloc(grafo->num_vertex, sizeof(int));
     dist[vini->pos] = 0;
 
-    while(cont > 0){
+    while(1){
 
         v = Menor_distancia(dist, visita, grafo->num_vertex);
         if(v == -1)
@@ -173,9 +173,9 @@ int Eh_porta(Grafo_t* grafo, int vertex, int vizinho){
     }
 }
 
-int Check_saida(Grafo_t* grafo, int* dist, int vertex,int vizinho){
+int Check_saida(Grafo_t* grafo, int* dist, int vizinho){
 
-    if(grafo->mapa[vertex][vizinho].key[0] == 'E'){
+    if(grafo->mapa[vizinho][vizinho].key[0] == 'E'){
         if(dist[vizinho] != -1)
             return 1;
         else return 0;
@@ -237,7 +237,7 @@ void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant,int* visit
         }
     }
     if(!(*chegou_saida)) {
-        *chegou_saida = Check_saida(grafo, dist, vertex, vizinho);
+        *chegou_saida = Check_saida(grafo, dist,  vizinho);
         if(*chegou_saida == 1) *saida = vizinho;
     }
 }

@@ -82,7 +82,10 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini){
     int lim_dir = 0, lim_esq = 0;
     int whole_i = 0, whole_j = 0, vertex_whole = 0;
 
+
     for(i = 0; i < matriz_aux->linha;i++){
+        //a cada linha da matriz redefine os limites laterais para que nao haja acesso
+        //a locais de memoria invalidos.
         lim_dir = (i + 1) * matriz_aux->coluna;
         lim_esq = (i * matriz_aux->coluna);
         for(j = 0; j < matriz_aux->coluna;j++){
@@ -92,6 +95,8 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini){
                 if(matriz_aux->mapa[i][j].key[0] == 'V')
                     vini->pos = k;
                 if(matriz_aux->mapa[i][j].key[0] > 47 && matriz_aux->mapa[i][j].key[0] < 58){
+//                  caso o vertice seje um buraco de minhhoca, realiza-se o calculo
+//                  para definir qual sera o seu vertice vizinho no grafo.
                     whole_i = (int) matriz_aux->mapa[i][j].key[0] - 48;
                     whole_j = (int) matriz_aux->mapa[i][j].key[1] - 48;
                     vertex_whole = matriz_aux->coluna * whole_i  + whole_j;
@@ -120,6 +125,11 @@ void Preenche_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, Vini_t* vini){
 
 void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int k, int k1){
 
+/*
+ * Caso o vertice vizinho nao seje uma parede, o define como acessivel
+ * e verifica se é um buraco de minhoca ou nao para atribuicao dos seus caracteres.
+ */
+
     if(matriz_aux->mapa[i][j].key[0] != '#'){
         grafo->mapa[k][k1].number = 1;
         if(matriz_aux->mapa[i][j].key[0] > 47 && matriz_aux->mapa[i][j].key[0] < 58){
@@ -134,6 +144,11 @@ void Insere_vertice_grafo(Grafo_t* matriz_aux, Grafo_t* grafo, int i, int j, int
 void Novos_vizinhos(Grafo_t* grafo, Grafo_t* matriz_aux, int vertex, int vizinho) {
 
     grafo->mapa[vertex][vizinho].number = 0;
+
+    /*
+     * verifica as posicoes adjacentes do antigo buraco de minhaca no mapa da matriz
+     * e se forem validas as define como novos vizinhos
+     */
 
     if (vertex - 1 >= 0) {
         if (grafo->mapa[vertex - 1][vertex - 1].key[0] != '#')
@@ -152,7 +167,6 @@ void Novos_vizinhos(Grafo_t* grafo, Grafo_t* matriz_aux, int vertex, int vizinho
             grafo->mapa[vertex][vertex + matriz_aux->coluna].number = 1;
     }
 }
-
 
 void Apaga_matriz(Grafo_t* matriz){
 

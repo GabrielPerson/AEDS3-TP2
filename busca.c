@@ -23,17 +23,22 @@ int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, in
         visita[v] = 1;
         cont--;
 
+        //verifica se o vertice atual é um buraco de minhoca
         whole = 0;
-        //TODO o hole qnd fecha, ele pode ser acessado de novo ? e os que vem antes dele? podem ?
         if(grafo->mapa[v][v].key[0] > 47 && grafo->mapa[v][v].key[0] < 59){
             whole_fechado = v;
             whole = 1;
             grafo->mapa[v][v].key[0] = '.';
         }
 
+        //caso ja tenha se chegado a saida e a distancia do vertice atual seje maior
+        //encerra-se a busca (achou-se o menor caminho)
         if(chegou_saida && dist[v] > dist[saida])
             break;
 
+        //caso tenha se chegado a uma chave, e esteja no maximo de chaves
+        //verifica-se se no caminho percorrido foi-se pego uma chave.
+        //caso nao, pode-se pegar a chave atual.
         if(Eh_chave(grafo,v) && vini->cont_chave == vini->max_chave){
             k = ant[v];
             passou_chave = 0;
@@ -51,15 +56,18 @@ int Busca_saida(Grafo_t* grafo, Grafo_t* matriz_aux, Vini_t* vini, int* dist, in
             }
         }
 
+        //verifica-se se pode pegar chave do vertice atual
         if(vini->cont_chave < vini->max_chave && Eh_chave(grafo,v))
             Pega_chave(grafo, vini, v);
 
+        //verifica adjacencia para todos os vizinhos do vertice atual.
         for(i = 0; i < grafo->num_vertex;i++) {
             if (grafo->mapa[v][i].number == 1){
                 vizinho = i;
                 Check_vizinhos(grafo, vini, dist, ant, visita, v, i, &chegou_saida, &saida, whole, whole_fechado);
             }
         }
+        //caso o vertice atual seje um buraco de minhoca, define-se novos vizinhos para este.
         if(whole)
             Novos_vizinhos(grafo,matriz_aux,v, vizinho);
 
@@ -192,6 +200,7 @@ void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant,int* visit
     eh_porta = abre_porta= 0;
     vizinho = i;
 
+    //verifica se vizinho eh uma porta e se pode ser aberta
     eh_porta = Eh_porta(grafo, vertex, vizinho);
     abre_porta = Abre_porta(grafo,vini,vertex, vizinho);
 
@@ -208,12 +217,13 @@ void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant,int* visit
             dist[k] = -1;
         }
     }
+    //se esta passando por um buraco de minhoca fechado.
     if(vizinho == whole_fechado){
         visita[vizinho] = 0;
         dist[vizinho] = dist[vertex] + 1;
     }
 
-
+    //atualiza distancia do vertice vizinho
     if(dist[vizinho] < 0){
         if(whole) {
             dist[vizinho] = dist[vertex];
@@ -236,6 +246,8 @@ void Check_vizinhos(Grafo_t* grafo, Vini_t* vini, int* dist, int* ant,int* visit
             ant[vizinho] = vertex;
         }
     }
+    //se ainda nao se tiver chegado na saida verifica-se se chegou na saida
+    // se sim, define o vertice da saida.
     if(!(*chegou_saida)) {
         *chegou_saida = Check_saida(grafo, dist,  vizinho);
         if(*chegou_saida == 1) *saida = vizinho;
@@ -246,6 +258,7 @@ int No_caminho(int* ant, int vertex, int vizinho, int inicio){
 
     int i = 0;
 
+    //percorre os vertices anteriores (caminho) no caso do buraco de minhoca voltar para antes.
     i = ant[vertex];
     if(vizinho == inicio) return 1;
     while(i != inicio){

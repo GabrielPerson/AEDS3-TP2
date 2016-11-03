@@ -17,7 +17,28 @@ typedef struct vini{
 
 }Vini_t;
 
+/*
+ * Prototipo: Vini_t* Cria_vini(int max_chave);
+ *
+ * Funcao: Aloca espaco na memoria para o vinicius e define o valor maximo de chaves
+ * que podem ser carregadas.
+ *
+ * Entrada: Tamanho maximo de chaves
+ *
+ * Saida: variavel do tipo Vini_t* alocada e inicializada.
+ */
+
 Vini_t* Cria_vini(int max_chave);
+
+/*
+ * Prototipo: void Apaga_vini(Vini_t* vini);
+ *
+ * Funcao: Libera o espaco na memoria alocado para o vinicius
+ *
+ * Entrada: variavel do tipo Vini_t*
+ *
+ * Saida: funcao void
+ */
 
 void Apaga_vini(Vini_t* vini);
 
